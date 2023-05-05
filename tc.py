@@ -60,21 +60,29 @@ def __scroll_down_page(driver,speed=16):
 
 __scroll_down_page(driver)
 blog_titles = driver.find_elements(By.CSS_SELECTOR, '[class^="Box-sc-ucqo0b-0 dacPsq"]')
+inMemoryClassName = '[class^="Box-sc-ucqo0b-0 Text-sc-8i5r1a-0 efFzny"]'
 nameClassName = '[class^="Box-sc-ucqo0b-0 lbRkvc"]'
 linkClassName = '[class^="Box-sc-ucqo0b-0 Link-sc-1u14kdb-0 PersonCard___StyledLink2-sc-1opqadm-6 glRqTu dEdZYg hzcvQu"]'
 #names = driver.find_elements(By.CSS_SELECTOR, nameClassName)
 
 for title in blog_titles:
+    inMemory = ''
+    inMemories = title.find_elements(By.CSS_SELECTOR, inMemoryClassName)
     names = title.find_elements(By.CSS_SELECTOR, nameClassName)
     links = title.find_elements(By.CSS_SELECTOR, linkClassName)
-    
+    for inMemory in inMemories:
+        inMemory=inMemory.text
     for name in names:
         name=name.text
     for link in links:
         link=link.get_attribute('href')
-    p1 = Person(name,link)
-    person_array.append(p1)
-    
+    if inMemory != 'IN MEMORIAM':
+        p1 = Person(name,link)
+        person_array.append(p1)
+    else:
+        print(name)
+        print(inMemory)
+        print(link)
 driver.quit() # closing the browser
 
 
