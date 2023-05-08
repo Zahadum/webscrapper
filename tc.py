@@ -13,7 +13,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 config = configparser.ConfigParser()
-config.read('.env')
+config.read('config.env')
 host = config.get('MySQL','host')
 database = config.get('MySQL','database')
 user = config.get('MySQL','user')
