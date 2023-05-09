@@ -81,8 +81,6 @@ for title in blog_titles:
         person_array.append(p1)
     else:
         print(name)
-        print(inMemory)
-        print(link)
 driver.quit() # closing the browser
 
 
@@ -167,7 +165,6 @@ def removeDuplicateRecords(recordsFromTimeColonistWebsite,duplicateRecords):
             new_records.append(record)
     return new_records
 def scrapIndividualObituary(record):
-    isUWMentioned = False
     driverSub = webdriver.Chrome(desired_capabilities=caps, service=Service(ChromeDriverManager().install()))
     driverSub.get(record.link)    
     content_array = driverSub.find_elements(By.CSS_SELECTOR, '[class^="Paragraph-sc-osiab4-0 ObituaryText___StyledParagraph-sc-12f7zd1-0"]')
@@ -187,10 +184,11 @@ def scrapIndividualObituary(record):
             
     obituary_content = ''
     for content in content_array:
+        isUWMentioned = 0
         obituary_content = content.text
-        searchContext = content.text.str.lower()
-        if(searchContext.find('uw')>=0 or searchContext.find('united way')>=0 or searchContext.find('united way southern vancouver island')>=0 or searchContext.find('united way greater victoria')>=0 or searchContext.find('Canadian Forest Service')):
-            isUWMentioned = True
+        searchContext = content.text.lower()
+        if(searchContext.find('uw')>=0 or searchContext.find('united way')>=0 or searchContext.find('united way southern vancouver island')>=0 or searchContext.find('united way greater victoria')>=0):
+            isUWMentioned = 1
     driverSub.quit() # closing the browser
     updateObituaryRecord(obituary_bornValue,obituary_diedValue,obituary_content,record.tc_id,isUWMentioned)
 
